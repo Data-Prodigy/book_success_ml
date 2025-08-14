@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/05d2ddbec2004f81942446d8d7be3cd0/artifacts
+end_time: 1754900329513
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 05d2ddbec2004f81942446d8d7be3cd0
+run_name: big-kit-61
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900319519
+status: 3
+tags: []
+user_id: PRECISION 5540

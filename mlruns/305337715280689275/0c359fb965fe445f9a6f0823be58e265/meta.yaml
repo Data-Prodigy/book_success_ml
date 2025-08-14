@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/0c359fb965fe445f9a6f0823be58e265/artifacts
+end_time: 1754900507711
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 0c359fb965fe445f9a6f0823be58e265
+run_name: thundering-dove-340
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900496802
+status: 3
+tags: []
+user_id: PRECISION 5540

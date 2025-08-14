@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/14c7ab4e68bf4543a4bf1949679e4cf3/artifacts
+end_time: 1754900438922
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 14c7ab4e68bf4543a4bf1949679e4cf3
+run_name: grandiose-cow-806
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900428581
+status: 3
+tags: []
+user_id: PRECISION 5540

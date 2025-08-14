@@ -1,0 +1,23 @@
+digest: 6fc25877
+name: dataset
+profile: '{"num_rows": 82, "num_elements": 1804}'
+schema: '{"mlflow_colspec": [{"type": "integer", "name": "author_searched", "required":
+  true}, {"type": "string", "name": "title", "required": true}, {"type": "string",
+  "name": "categories", "required": true}, {"type": "float", "name": "author_avg_rating",
+  "required": true}, {"type": "integer", "name": "author_rating_count", "required":
+  true}, {"type": "integer", "name": "author_total_reviews", "required": true}, {"type":
+  "float", "name": "book_avg_rating", "required": true}, {"type": "integer", "name":
+  "num_pages", "required": true}, {"type": "integer", "name": "book_published_year",
+  "required": true}, {"type": "long", "name": "chr_cnt", "required": true}, {"type":
+  "long", "name": "wrd_cnt", "required": true}, {"type": "double", "name": "avg_wrd_len",
+  "required": true}, {"type": "double", "name": "svd_1", "required": true}, {"type":
+  "double", "name": "svd_2", "required": true}, {"type": "double", "name": "svd_3",
+  "required": true}, {"type": "double", "name": "svd_4", "required": true}, {"type":
+  "double", "name": "svd_5", "required": true}, {"type": "double", "name": "svd_6",
+  "required": true}, {"type": "double", "name": "svd_7", "required": true}, {"type":
+  "double", "name": "svd_8", "required": true}, {"type": "double", "name": "svd_9",
+  "required": true}, {"type": "double", "name": "svd_10", "required": true}]}'
+source: '{"tags": {"mlflow.user": "PRECISION 5540", "mlflow.source.name": "c:\\Users\\PRECISION
+  5540\\Downloads\\my_project\\book_success_ml\\venv\\Lib\\site-packages\\ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

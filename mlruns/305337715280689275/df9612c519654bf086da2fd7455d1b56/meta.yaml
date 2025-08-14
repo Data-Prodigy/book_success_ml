@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/df9612c519654bf086da2fd7455d1b56/artifacts
+end_time: 1754903679231
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: df9612c519654bf086da2fd7455d1b56
+run_name: upbeat-wren-239
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754903679084
+status: 3
+tags: []
+user_id: PRECISION 5540

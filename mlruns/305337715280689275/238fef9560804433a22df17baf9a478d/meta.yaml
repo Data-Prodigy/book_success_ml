@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/238fef9560804433a22df17baf9a478d/artifacts
+end_time: 1754900461985
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 238fef9560804433a22df17baf9a478d
+run_name: chill-tern-643
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900450576
+status: 3
+tags: []
+user_id: PRECISION 5540

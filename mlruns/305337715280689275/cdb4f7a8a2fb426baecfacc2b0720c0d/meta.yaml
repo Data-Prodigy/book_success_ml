@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/cdb4f7a8a2fb426baecfacc2b0720c0d/artifacts
+end_time: 1754904484214
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: cdb4f7a8a2fb426baecfacc2b0720c0d
+run_name: caring-stoat-751
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754904461990
+status: 3
+tags: []
+user_id: PRECISION 5540

@@ -1,0 +1,10 @@
+artifact_location: file:///c:/Users/PRECISION%205540/Downloads/my_project/book_success_ml/src/features/mlruns/0/models/m-515ba2f95ecf4cda80617027c3fd5494/artifacts
+creation_timestamp: 1754825716909
+experiment_id: '0'
+last_updated_timestamp: 1754825730750
+model_id: m-515ba2f95ecf4cda80617027c3fd5494
+model_type: null
+name: model
+source_run_id: 6713018ad8764525bc632c6029ad1c72
+status: 2
+status_message: null

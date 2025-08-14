@@ -1,0 +1,21 @@
+stages:
+  feature_pipeline:
+    cmd: python3 feature_pipeline.py
+    deps:
+    - Novel_Pred.csv
+    - feature_pipeline.py
+    outs:
+    - Cleaned_data_with_tfidf.csv
+  training_pipeline:
+    cmd: ' '
+    deps:
+    - train_pipeline.py
+    outs:
+    - confusion_matrix.png
+  inference_pipeline:
+    cmd: python3 inference_pipeline.py
+    deps:
+    - inference_pipeline.py
+    - novel_inference_data.csv
+    outs:
+    - inference_metrics.json

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/b524f1f46efe498a92c26750ddbe4a2c/artifacts
+end_time: 1754900564962
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: b524f1f46efe498a92c26750ddbe4a2c
+run_name: intelligent-ape-13
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900554201
+status: 3
+tags: []
+user_id: PRECISION 5540

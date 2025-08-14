@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/ab70e1a18a454fb3aa837d1cb6a7c9ad/artifacts
+end_time: 1754900530990
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: ab70e1a18a454fb3aa837d1cb6a7c9ad
+run_name: kindly-goose-655
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900520172
+status: 3
+tags: []
+user_id: PRECISION 5540

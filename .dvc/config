@@ -1,0 +1,5 @@
+[core]
+    autostage = true
+    remote = mylocalremote
+['remote "mylocalremote"']
+    url = C:/Users/PRECISION 5540/book_success_ml/data

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/cf455302c447480883bb5bf630f9b0f9/artifacts
+end_time: 1754900186370
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: cf455302c447480883bb5bf630f9b0f9
+run_name: upset-lamb-713
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900151828
+status: 3
+tags: []
+user_id: PRECISION 5540

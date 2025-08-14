@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/95e78fc3c34b4537a17eb0240a5edd8f/artifacts
+end_time: 1754900450062
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 95e78fc3c34b4537a17eb0240a5edd8f
+run_name: likeable-doe-754
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900439480
+status: 3
+tags: []
+user_id: PRECISION 5540

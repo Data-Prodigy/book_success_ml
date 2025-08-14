@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/991521a7d0c245c599e2b4f836ee4a16/artifacts
+end_time: 1754900308860
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 991521a7d0c245c599e2b4f836ee4a16
+run_name: redolent-ape-875
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900298022
+status: 3
+tags: []
+user_id: PRECISION 5540

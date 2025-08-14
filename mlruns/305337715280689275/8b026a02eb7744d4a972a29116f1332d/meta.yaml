@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/8b026a02eb7744d4a972a29116f1332d/artifacts
+end_time: 1754900553634
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 8b026a02eb7744d4a972a29116f1332d
+run_name: rare-zebra-631
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900543039
+status: 3
+tags: []
+user_id: PRECISION 5540

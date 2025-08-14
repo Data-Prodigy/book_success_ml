@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/32cc621e55df4acdbcc76cdfb259e483/artifacts
+end_time: 1754900253746
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 32cc621e55df4acdbcc76cdfb259e483
+run_name: melodic-penguin-647
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900242207
+status: 3
+tags: []
+user_id: PRECISION 5540

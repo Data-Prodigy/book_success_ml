@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/76557256436d4574ad5f629cac54fdbb/artifacts
+end_time: 1754900484548
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 76557256436d4574ad5f629cac54fdbb
+run_name: bald-dog-195
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900473961
+status: 3
+tags: []
+user_id: PRECISION 5540

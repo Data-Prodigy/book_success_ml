@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/6cf4ae7d132d4bb898c57e2685ba614c/artifacts
+end_time: 1754900372942
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 6cf4ae7d132d4bb898c57e2685ba614c
+run_name: enthused-mole-422
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900363706
+status: 3
+tags: []
+user_id: PRECISION 5540

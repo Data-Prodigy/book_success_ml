@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/d905c78551b2452380f189c5162058fa/artifacts
+end_time: 1754903679580
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: d905c78551b2452380f189c5162058fa
+run_name: indecisive-mule-415
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754903679313
+status: 4
+tags: []
+user_id: PRECISION 5540

@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/113bd0b434684f9db3b5576a00dcaf7b/artifacts
+end_time: 1754900208357
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 113bd0b434684f9db3b5576a00dcaf7b
+run_name: able-swan-248
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900197063
+status: 3
+tags: []
+user_id: PRECISION 5540

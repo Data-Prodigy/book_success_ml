@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/2229be9063594c74b5f3e8001151c30a/artifacts
+end_time: 1754900276177
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 2229be9063594c74b5f3e8001151c30a
+run_name: gregarious-kite-745
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1754900265174
+status: 3
+tags: []
+user_id: PRECISION 5540
