@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/5e15703356894f6082531764fdd2991d/artifacts
+end_time: 1755503908191
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 5e15703356894f6082531764fdd2991d
+run_name: beautiful-tern-789
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755503884323
+status: 3
+tags: []
+user_id: PRECISION 5540

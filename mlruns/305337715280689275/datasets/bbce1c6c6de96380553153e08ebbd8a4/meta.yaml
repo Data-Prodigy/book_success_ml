@@ -1,0 +1,9 @@
+digest: 27e875a9
+name: dataset
+profile: '{"features_shape": [32, 12], "features_size": 384, "features_nbytes": 3072}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"float64\", \"shape\": [-1, 12]}}]", "targets": null}}'
+source: '{"tags": {"mlflow.user": "PRECISION 5540", "mlflow.source.name": "c:\\Users\\PRECISION
+  5540\\Downloads\\my_project\\book_success_ml\\venv\\Lib\\site-packages\\ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

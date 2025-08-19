@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/3af48bae069a47f68cfa0581d4113563/artifacts
+end_time: 1755528364397
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 3af48bae069a47f68cfa0581d4113563
+run_name: thoughtful-rat-461
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755528342192
+status: 3
+tags: []
+user_id: PRECISION 5540

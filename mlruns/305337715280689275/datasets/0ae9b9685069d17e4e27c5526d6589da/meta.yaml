@@ -1,0 +1,11 @@
+digest: f94e28e5
+name: dataset
+profile: '{"features_shape": [126, 12], "features_size": 1512, "features_nbytes":
+  12096, "targets_shape": [126], "targets_size": 126, "targets_nbytes": 504}'
+schema: '{"mlflow_tensorspec": {"features": "[{\"type\": \"tensor\", \"tensor-spec\":
+  {\"dtype\": \"float64\", \"shape\": [-1, 12]}}]", "targets": "[{\"type\": \"tensor\",
+  \"tensor-spec\": {\"dtype\": \"int32\", \"shape\": [-1]}}]"}}'
+source: '{"tags": {"mlflow.user": "PRECISION 5540", "mlflow.source.name": "c:\\Users\\PRECISION
+  5540\\Downloads\\my_project\\book_success_ml\\venv\\Lib\\site-packages\\ipykernel_launcher.py",
+  "mlflow.source.type": "LOCAL"}}'
+source_type: code

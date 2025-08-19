@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/100853557808938085/5fc65b73fc58436fa21b8aded5e627ac/artifacts
+deleted_time: 1755493157257
+end_time: 1755491731100
+entry_point_name: ''
+experiment_id: '100853557808938085'
+lifecycle_stage: deleted
+run_id: 5fc65b73fc58436fa21b8aded5e627ac
+run_name: unequaled-frog-572
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755491681818
+status: 3
+tags: []
+user_id: PRECISION 5540

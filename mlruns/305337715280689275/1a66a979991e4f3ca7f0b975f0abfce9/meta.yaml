@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/1a66a979991e4f3ca7f0b975f0abfce9/artifacts
+end_time: 1755528282782
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 1a66a979991e4f3ca7f0b975f0abfce9
+run_name: abrasive-ray-286
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755528260344
+status: 3
+tags: []
+user_id: PRECISION 5540

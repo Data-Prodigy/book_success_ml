@@ -1,0 +1,7 @@
+artifact_location: mlflow-artifacts:/100853557808938085
+creation_time: 1755491677069
+experiment_id: '100853557808938085'
+last_update_time: 1755493157257
+lifecycle_stage: deleted
+name: LR_Experiment
+tags: {}

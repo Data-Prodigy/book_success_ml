@@ -3,15 +3,20 @@ stages:
     cmd: python3 feature_pipeline.py
     deps:
     - Novel_Pred.csv
+    - clean_1.csv
+    - just_lemme_see.csv
     - feature_pipeline.py
     outs:
     - Cleaned_data_with_tfidf.csv
+    - novel_inference_data.csv
+    - clean_1.csv
   training_pipeline:
-    cmd: ' '
+    cmd: python3 train_pipeline.py
     deps:
     - train_pipeline.py
     outs:
     - confusion_matrix.png
+    - inference_metrics.json
   inference_pipeline:
     cmd: python3 inference_pipeline.py
     deps:

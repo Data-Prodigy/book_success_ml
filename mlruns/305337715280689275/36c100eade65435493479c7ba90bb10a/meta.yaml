@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/36c100eade65435493479c7ba90bb10a/artifacts
+end_time: 1755496025287
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 36c100eade65435493479c7ba90bb10a
+run_name: delicate-zebra-656
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755496015891
+status: 3
+tags: []
+user_id: PRECISION 5540

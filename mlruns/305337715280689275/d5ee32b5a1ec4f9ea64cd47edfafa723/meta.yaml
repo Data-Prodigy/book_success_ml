@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/d5ee32b5a1ec4f9ea64cd47edfafa723/artifacts
+end_time: 1755495129021
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: d5ee32b5a1ec4f9ea64cd47edfafa723
+run_name: caring-lamb-857
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755495128955
+status: 4
+tags: []
+user_id: PRECISION 5540

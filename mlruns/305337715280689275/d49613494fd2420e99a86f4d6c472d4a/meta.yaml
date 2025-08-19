@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/d49613494fd2420e99a86f4d6c472d4a/artifacts
+end_time: 1755503495703
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: d49613494fd2420e99a86f4d6c472d4a
+run_name: colorful-foal-462
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755503472397
+status: 3
+tags: []
+user_id: PRECISION 5540

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/100853557808938085/c378a46bd1394a32bf30d66a4366c93f/artifacts
+deleted_time: 1755493157257
+end_time: 1755492746560
+entry_point_name: ''
+experiment_id: '100853557808938085'
+lifecycle_stage: deleted
+run_id: c378a46bd1394a32bf30d66a4366c93f
+run_name: thoughtful-kit-946
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755492746375
+status: 4
+tags: []
+user_id: PRECISION 5540

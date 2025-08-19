@@ -1,0 +1,14 @@
+artifact_uri: mlflow-artifacts:/305337715280689275/74660cb5edfc48719cf7f107568b472d/artifacts
+end_time: 1755527579886
+entry_point_name: ''
+experiment_id: '305337715280689275'
+lifecycle_stage: active
+run_id: 74660cb5edfc48719cf7f107568b472d
+run_name: merciful-shrimp-646
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755527537173
+status: 3
+tags: []
+user_id: PRECISION 5540

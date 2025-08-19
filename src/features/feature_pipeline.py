@@ -3,87 +3,8 @@ import pandas as pd
 import time
 
 def fetch_novel_data():
-    """
-Function that fetches metadata from Google Books API using my API key for 15 best-selling (mostly standalone authors)
-    """
-    GOOGLE_BOOKS_API_KEY = 'AIzaSyC6Dk5o102Kxw7MgpuUBpgvQDq16G91z5o'  
-    GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes"
-
-    authors = [
-        "Dan Brown",
-        "Chinua Achebe",
-        "Chimamanda Ngozi Adichie",
-        "George Orwell",
-        "John Grisham",
-        "Stephen King",
-        "Frederick Forsyth",
-        "Agatha Christie",
-        "Michael Connelly",
-        "John Green",
-        "Blake Crouch",
-        "Sidney Sheldon",
-        "Mick Herron",
-        "Rachel Howzell Hall",
-        "Kristin Hannah"
-    ]
-
-    def fetch_books_for_author(author, max_books=100):
-        books = []
-        max_results_per_request = 40
-        start_index = 0
-
-        while start_index < max_books:
-            params = {
-                'q': f'inauthor:"{author}"',
-                'key': GOOGLE_BOOKS_API_KEY,
-                'startIndex': start_index,
-                'maxResults': max_results_per_request,
-                'printType': 'books',
-                'langRestrict': 'en'
-            }
-
-            response = requests.get(GOOGLE_BOOKS_API, params=params)
-            if response.status_code != 200:
-                print(f"Request failed for author {author} at index {start_index}: {response.status_code}")
-                break
-
-            data = response.json()
-            items = data.get('items', [])
-            if not items:
-                break
-
-            for item in items:
-                volume_info = item.get('volumeInfo', {})
-                if volume_info.get('language') != 'en':
-                    continue
-
-                books.append({
-                    'author_searched': author,
-                    'title': volume_info.get('title'),
-                    'authors': volume_info.get('authors'),
-                    'description': volume_info.get('description'),
-                    'average_rating': volume_info.get('averageRating'),
-                    'ratings_count': volume_info.get('ratingsCount'),
-                    'published_date': volume_info.get('publishedDate'),
-                    'categories': volume_info.get('categories')
-                })
-
-            start_index += max_results_per_request
-            time.sleep(0.1)  
-
-        return books
-
-    all_books = []
-    for author in authors:
-        print(f"Fetching books for {author}...")
-        author_books = fetch_books_for_author(author, max_books=100)
-        print(f"Found {len(author_books)} books for {author}")
-        all_books.extend(author_books)
-
-    new_df = pd.DataFrame(all_books)
-    new_df.to_csv('Novel_Pred_Raw_Data.csv',index=False)
-    return new_df
-
+    novel_df = pd.read_csv('Novel_Pred.csv')
+    return novel_df
 
 def keep_only_correct_variants(novel_df):
     """
@@ -571,7 +492,7 @@ def some_more_cleaning(df):
 
     df.drop(columns=['book_total_reviews', 'book_rating_count', 'authors'], inplace=True)
 
-    df['categories'] = df['categories'].str.strip('[').str.strip(']')
+    df['categories'] = df['categories'].astype(str).str.strip('[').str.strip(']')
     df['categories'] = df['categories'].fillna(method='ffill')
 
     num_pages_imputed = imputer.fit_transform(df[['num_pages']])
@@ -798,135 +719,79 @@ The columns from my cleaned dataframe must meet these expectations before they c
     print(checkpoint_results.success)
 
 
-def perform_TF_IDF(df):
-    """
-    Using TfidfVectorizer to single out highly important words/word phrases.
-    Setting ngram_range to (2,2) to pick phrases like 'murder mystery', 'haunted house', etc.
-    """
-    import pandas as pd
-    from sklearn.feature_extraction.text import TfidfVectorizer
-
-    df['clean_desc'] = df['description'].str.replace('[^a-zA-Z]', ' ', regex=True)
-    df['clean_desc'] = df['clean_desc'].str.lower()
-    df['chr_cnt'] = df['clean_desc'].str.len()
-    df['wrd_cnt'] = df['clean_desc'].str.split().str.len()
-    df['avg_wrd_len'] = df['chr_cnt'] / df['wrd_cnt']
-
-    tv = TfidfVectorizer(ngram_range=(2, 2), stop_words='english', max_features=7)
-    tv_trans = tv.fit_transform(df['clean_desc'])
-    
-    tfidf_df = pd.DataFrame(tv_trans.toarray(), columns=tv.get_feature_names_out())
-    
-    # Combine with original dataframe
-    new_df = pd.concat([df.reset_index(drop=True), tfidf_df.reset_index(drop=True)], axis=1, sort=False)
-    return new_df
-
-
+import pandas as pd
 import numpy as np
+import re
 
-def create_hit_miss(df):
+def extract_features(df):
     """
-    Creates a label column 'hit_miss' by combining a weighted sum of numeric features
-    and normalized TF-IDF/SVD-like features, with balanced weights. Only books in the top 45% threshold are classified as Hits
+    Extracts numeric and text-based features from a book dataset.
+    Text features include:
+      - buzzword_count
+      - description word count
+      - number of sentences
+      - adjective count (simple regex-based)
     """
-    import numpy as np
+    # --- TEXT FEATURES ---
+    buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece', 
+                 'epic', 'thrilling', 'captivating', 'page-turner', 'unforgettable']
 
-    cols_to_norm = [
-        'author_avg_rating', 
-        'author_rating_count', 
-        'author_total_reviews', 
-        'num_pages',              # fixed at 0.03, little to no effect on prediction
-        'book_published_year',    # fixed at 0.02, same reason :)
-        'book_avg_rating', 
-        'book_ratings', 
-        'book_reviews'
-    ]
+    df['description_clean'] = df['description'].astype(str).str.lower()
 
-    tfidf_cols = [
-        col for col in df.columns 
-        if col not in cols_to_norm 
-        and col not in ['chr_cnt', 'wrd_cnt', 'avg_wrd_len', 'description', 
-                        'clean_desc', 'author_searched', 'title', 'categories']
-    ]
+    df['buzzword_count'] = df['description_clean'].apply(
+        lambda x: sum(x.count(word) for word in buzzwords)
+    )
+    df['desc_len_words'] = df['description_clean'].apply(lambda x: len(x.split()))
+    df['num_sentences'] = df['description_clean'].apply(lambda x: x.count('.') + x.count('!') + x.count('?'))
+    df['num_adjectives'] = df['description_clean'].str.count(r'\b\w+(ly|ous|ive|able|ful|ish|ic|al|ant|ent)\b')
 
-    norm_numeric = df[cols_to_norm].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
-    norm_tfidf = df[tfidf_cols].apply(lambda x: (x - x.min()) / (x.max() - x.min()))
-
-    tfidf_count = len(tfidf_cols)
-
-    tfidf_weight_each = 0.03
-    total_tfidf_weight = tfidf_count * tfidf_weight_each
-
-    remaining_weight = 1.0 - total_tfidf_weight
-    if remaining_weight <= 0:
-        raise ValueError("Too many TF-IDF features for fixed weight of 0.03 each — total exceeds 1.")
-
-    fixed_weights = {
-        'num_pages': 0.03,
-        'book_published_year': 0.02
-    }
-    fixed_weight_sum = sum(fixed_weights.values())
-
-    adjustable_cols = [c for c in cols_to_norm if c not in fixed_weights]
-    adjustable_weight_total = remaining_weight - fixed_weight_sum
-
-    old_weights = {
-        'author_avg_rating': 0.18,
-        'author_rating_count': 0.14,
-        'author_total_reviews': 0.12,
-        'book_avg_rating': 0.18,
-        'book_ratings': 0.15,
-        'book_reviews': 0.10
-    }
-    old_sum = sum(old_weights.values())
-
-    adjusted_weights = {col: w * (adjustable_weight_total / old_sum) for col, w in old_weights.items()}
-
-    numeric_weights = np.array([
-        adjusted_weights.get('author_avg_rating', fixed_weights.get('author_avg_rating', 0)),
-        adjusted_weights.get('author_rating_count', fixed_weights.get('author_rating_count', 0)),
-        adjusted_weights.get('author_total_reviews', fixed_weights.get('author_total_reviews', 0)),
-        fixed_weights.get('num_pages', adjusted_weights.get('num_pages', 0)),
-        fixed_weights.get('book_published_year', adjusted_weights.get('book_published_year', 0)),
-        adjusted_weights.get('book_avg_rating', fixed_weights.get('book_avg_rating', 0)),
-        adjusted_weights.get('book_ratings', fixed_weights.get('book_ratings', 0)),
-        adjusted_weights.get('book_reviews', fixed_weights.get('book_reviews', 0))
-    ])
-
-    tfidf_weights = np.full(tfidf_count, tfidf_weight_each)
-
-    # Combine features and weights
-    combined_features = np.hstack([norm_numeric.values, norm_tfidf.values])
-    weights = np.concatenate([numeric_weights, tfidf_weights])
-
-    score = np.dot(combined_features, weights)
-
-    threshold = np.percentile(score,55)
-    df['hit_miss'] = np.where(score >= threshold, 'Hit', 'Miss')
-
-    df.to_csv('Cleaned_data_with_tfidf.csv', index=False)
+    df = df.drop(columns=['description_clean'])
+    
     return df
 
+
+def create_hit_miss(df, quantile=0.35):
+    """
+    Creates a hit/miss column based on a weighted popularity score.
+    score = (book_avg_rating * 100) + log(1 + book_reviews)
+
+    Parameters:
+        df : pandas.DataFrame
+        quantile : float
+            The percentile cutoff for defining a "Hit". 
+            Default = 0.6 means top 40% of books will be Hits.
+
+    Returns:
+        df : pandas.DataFrame with added 'score' and 'hit_miss'
+    """
+    # --- Compute score ---
+    df['score'] = (df['book_avg_rating'] * 100) + np.log1p(df['book_reviews'])
+
+    # --- Threshold by quantile ---
+    threshold = df['score'].quantile(quantile)
+    df['hit_miss'] = np.where(df['score'] >= threshold, 'Hit', 'Miss')
+    df.drop(columns='score',inplace=True)
+    return df
 
 
 def send_to_feature_store(df):
     import hopsworks
-    import importlib
-    import confluent_kafka
-    importlib.reload(confluent_kafka)
     api_key = 'NhIODCOOM50hfmRh.f8KWceqZECE4l3Id7GAr47u5MAw9Wn28KWFRU9JNXFm1oVh4bdDtN5sRigsS9cD8'
     project = hopsworks.login(api_key_value=api_key)
 
     fs = project.get_feature_store()
     novel_data_fg = fs.get_or_create_feature_group(name = 'novel_data',
                                                 version = 1,
-                                                primary_key = ['author_searched', 'title', 'description', 'categories',
-        'author_avg_rating', 'author_rating_count', 'author_total_reviews',
-        'book_avg_rating', 'num_pages', 'book_published_year', 'clean_desc',
-        'chr_cnt', 'wrd_cnt', 'avg_wrd_len','hit_miss'],
-        description = 'Cleaned Novel Data Prediction Dataset')
-    novel_data_fg.insert(df)
-
+                                                description = 'Cleaned Novel Data Prediction Dataset',
+                                                primary_key = ['author_searched', 'title', 'categories', 'author_avg_rating',
+       'author_rating_count', 'author_total_reviews', 'num_pages',
+       'book_published_year', 'book_avg_rating', 'book_ratings',
+       'book_reviews', 'buzzword_count', 'desc_len_words', 'num_sentences',
+       'num_adjectives', 'hit_miss'],
+       online_enabled=False)
+    novel_data_fg.insert(df, wait=True)
+    commits=novel_data_fg.commit_details()
+    print(f'commits: {commits}')
 
 def main():
     novel_df = fetch_novel_data()
@@ -936,8 +801,8 @@ def main():
     novel_df = column_conversions(novel_df)
     novel_df = more_rows_and_inference_data('clean_1.csv')
     setting_expectations(novel_df)
-    novel_df = perform_TF_IDF(novel_df)
-    novel_df = create_hit_miss(novel_df)
+    novel_df = extract_features(novel_df)
+    novel_df = create_hit_miss(novel_df,quantile=0.35)
     send_to_feature_store(novel_df)
 
 if __name__ == "__main__":
