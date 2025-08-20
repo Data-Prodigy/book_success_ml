@@ -1,6 +1,3 @@
-/Novel_Pred.csv
 /Cleaned_data_with_tfidf.csv
-/confusion_matrix.png
-/inference_metrics.json
 venv/
 hops_env/
