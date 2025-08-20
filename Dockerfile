@@ -18,9 +18,11 @@ RUN python3 -m pip install --no-cache-dir -r /app/requirements.txt
 
 COPY src/features/ /app/src/features/
 
-COPY Novel_Pred.csv src/features/just_lemme_see.csv /app/
-COPY api/ ./api/
-COPY test/ ./test/
+COPY Novel_Pred.csv /app/
+COPY src/features/just_lemme_see.csv /app/src/features/
+
+COPY api/ /app/api/
+COPY test/ /app/test/
 
 # Exposing my FASTAPI PORT
 EXPOSE 8000
