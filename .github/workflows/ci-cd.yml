@@ -62,7 +62,7 @@ jobs:
         run: docker compose -f docker-compose.yaml up -d
 
       - name: Wait for FastAPI
-        run: sleep 10
+        run: sleep 40
 
       - name: Test FastAPI health endpoint
         run: |
