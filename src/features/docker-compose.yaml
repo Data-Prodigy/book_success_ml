@@ -9,7 +9,7 @@ services:
     command: python3 feature_pipeline.py
 
   training_pipeline:
-    image: hops_image
+    image: my_ml_image
     container_name: training_pipeline
     volumes:
       - ./src/features:/app

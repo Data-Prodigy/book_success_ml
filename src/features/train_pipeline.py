@@ -49,7 +49,6 @@ def build_LR_model(df):
     X_numeric = df[numeric_cols].copy()
     X = X_numeric.values
 
-    # --- Train/test split ---
     X_train, X_test, y_train, y_test = train_test_split(
         X, y_encoded, test_size=0.2, random_state=seed, stratify=y_encoded)
 
@@ -96,7 +95,7 @@ def build_LR_model(df):
         os.makedirs(save_dir, exist_ok=True)
         fig.savefig(os.path.join(save_dir, "confusion_matrix.png"), dpi=300, bbox_inches='tight')
 
-        # 🔹 Save metrics
+        #path to save the mertrics
         metrics = { 
             'accuracy': accuracy,
             'precision': precision,
@@ -108,7 +107,7 @@ def build_LR_model(df):
         with open(os.path.join(save_dir, "inference_metrics.json"), 'w') as f:
             json.dump(metrics, f, indent=4)
 
-        # 🔹 Register model
+        # Registering the Model to MLFLOW
         mlflow.sklearn.log_model(logreg_cv, artifact_path="model")
         run_id = run.info.run_id
         model_version = client.create_model_version(
