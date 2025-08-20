@@ -24,7 +24,7 @@ services:
 
   fastapi:
     build:
-      context: .
+      context: ../../..
       dockerfile: Dockerfile
       args:
         REQUIREMENTS_FILE: requirements.txt
@@ -37,7 +37,7 @@ services:
 
   hops:
     build:
-      context: .
+      context: ../../.. 
       dockerfile: Dockerfile
       args:
         REQUIREMENTS_FILE: requirements_hops.txt
