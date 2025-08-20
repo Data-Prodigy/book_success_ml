@@ -46,7 +46,8 @@ jobs:
 
       - name: Debug list files
         run: |
-          pwd
+          echo "Current directory: $(pwd)"
+          echo "List files recursively:"
           ls -R
 
       - name: Build Docker images
