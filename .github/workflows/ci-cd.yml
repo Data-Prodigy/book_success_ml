@@ -44,6 +44,11 @@ jobs:
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
+      - name: Debug list files
+        run: |
+          pwd
+          ls -R
+
       - name: Build Docker images
         working-directory: book_success_ml/src/features
         run: |
