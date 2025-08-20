@@ -50,6 +50,11 @@ jobs:
           echo "List files recursively:"
           ls -R
 
+      - name: Show repo structure
+        run: |
+          pwd
+          ls -R
+
       - name: Build Docker images
         run: docker compose -f src/features/docker-compose.yaml build
 
