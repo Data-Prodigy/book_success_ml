@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker-compose build
+          docker compose build
 
       - name: Run Docker Compose
         run: |
