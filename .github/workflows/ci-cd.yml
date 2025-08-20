@@ -47,7 +47,7 @@ jobs:
       - name: Build Docker images
         working-directory: book_success_ml
         run: |
-          docker compose build
+          docker compose -f src/features/docker-compose.yaml build
 
       - name: Run Docker Compose
         run: |
