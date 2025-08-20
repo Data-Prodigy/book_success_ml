@@ -24,7 +24,7 @@ services:
 
   fastapi:
     build:
-      context: .
+      context: ../../..
       dockerfile: Dockerfile
       args:
         REQUIREMENTS_FILE: requirements.txt
