@@ -50,8 +50,9 @@ jobs:
           
       - name: Run Docker Compose
         run: |
-          docker-compose up -d
-          sleep 10
+           run: docker compose -f book_success_ml/src/features/docker-compose.yaml up -d
+
+            sleep 10
 
       - name: Test FastAPI health endpoint
         run: |
