@@ -2,25 +2,31 @@ version: '3.8'
 
 services:
   feature_pipeline:
-    image: my_ml_image
-    container_name: feature_pipeline
-    volumes:
+     build:
+      context: .
+      dockerfile: Dockerfile
+     container_name: feature_pipeline
+     volumes:
       - ./src/features:/app
-    command: python3 feature_pipeline.py
+     command: python3 feature_pipeline.py
 
   training_pipeline:
-    image: my_ml_image
-    container_name: training_pipeline
-    volumes:
+     build:
+      context: .
+      dockerfile: Dockerfile
+     container_name: training_pipeline
+     volumes:
       - ./src/features:/app
-    command: python3 train_pipeline.py
+     command: python3 train_pipeline.py
 
   inference:
-    image: my_ml_image
-    container_name: inference
-    volumes:
+     build:
+      context: .
+      dockerfile: Dockerfile
+     container_name: inference
+     volumes:
       - ./src/features:/app
-    command: python3 inference_pipeline.py
+     command: python3 inference_pipeline.py
 
   fastapi:
     build:
