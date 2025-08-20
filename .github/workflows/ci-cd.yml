@@ -51,10 +51,10 @@ jobs:
           ls -R
 
       - name: Build Docker images
-        run: docker compose -f book_success_ml/src/features/docker-compose.yaml build
+        run: docker compose -f src/features/docker-compose.yaml build
 
       - name: Run Docker Compose
-        run: docker compose -f book_success_ml/src/features/docker-compose.yaml up -d
+        run: docker compose -f src/features/docker-compose.yaml up -d
 
       - name: Wait for FastAPI
         run: sleep 10
@@ -65,4 +65,4 @@ jobs:
 
       - name: Tear down
         if: always()
-        run: docker compose -f book_success_ml/src/features/docker-compose.yaml down
+        run: docker compose -f src/features/docker-compose.yaml down
