@@ -44,12 +44,12 @@ jobs:
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - name: Debug list files
+      - name: Debug files in features dir
+        working-directory: book_success_ml/src/features
         run: |
-          echo "Current directory: $(pwd)"
-          echo "List files recursively:"
-          ls -R
-
+          pwd
+          ls -l
+          
       - name: Build Docker images
         working-directory: book_success_ml/src/features
         run: |
@@ -59,8 +59,7 @@ jobs:
         working-directory: book_success_ml/src/features
         run: |
           docker compose up -d
-
-            sleep 10
+          sleep 10
 
       - name: Test FastAPI health endpoint
         run: |
@@ -68,4 +67,4 @@ jobs:
 
       - name: Tear down
         if: always()
-        run: docker-compose down
+        run: docker compose down
