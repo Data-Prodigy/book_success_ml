@@ -46,8 +46,8 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker compose build
-
+          docker compose -f book_success_ml/src/features/docker-compose.yaml build
+          
       - name: Run Docker Compose
         run: |
           docker-compose up -d
