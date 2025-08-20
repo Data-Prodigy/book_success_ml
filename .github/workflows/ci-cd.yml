@@ -58,11 +58,15 @@ jobs:
       - name: Build Docker images
         run: docker compose -f docker-compose.yaml build
 
-      - name: Run Docker Compose
-        run: docker compose -f docker-compose.yaml up -d
-
-      - name: Wait for FastAPI
-        run: sleep 40
+      - name: Run Docker Compose and wait for FastAPI
+        run: |
+          docker compose -f docker-compose.yaml up -d
+          echo "Waiting for FastAPI to be ready..."
+          until docker compose exec fastapi_app curl -s http://localhost:8000/docs > /dev/null 2>&1; do
+            sleep 2
+            echo "Waiting..."
+          done
+          echo "FastAPI is up!"
 
       - name: Test FastAPI health endpoint
         run: |
