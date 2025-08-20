@@ -59,7 +59,7 @@ jobs:
         run: docker compose -f docker-compose.yaml build
 
       - name: Show FastAPI logs
-        run: docker compose logs fastapi_app
+        run: docker compose logs fastapi
 
       - name: Run Docker Compose and wait for FastAPI
         run: |
