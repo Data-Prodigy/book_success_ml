@@ -45,10 +45,9 @@ jobs:
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
       - name: Build Docker images
-        working-directory: book_success_ml
         run: |
-          docker compose -f src/features/docker-compose.yaml build
-
+          docker compose -f book_success_ml/src/features/docker-compose.yaml build
+          
       - name: Run Docker Compose
         run: |
           docker-compose up -d
