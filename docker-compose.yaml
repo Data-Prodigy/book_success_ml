@@ -52,12 +52,12 @@ services:
       context: .
       dockerfile: Dockerfile.fastapi
     container_name: fastapi_app
-    working_dir: /app/api
+    working_dir: /app
     volumes:
       - ./mlruns:/app/mlruns
     ports:
       - "8085:8000"
-    command: ["python3", "-m", "uvicorn", "fast_api:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["python3", "-m", "uvicorn", "api.fast_api:app", "--host", "0.0.0.0", "--port", "8000"]
     depends_on:
       - inference
     healthcheck:
