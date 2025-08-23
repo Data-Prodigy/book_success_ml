@@ -1,17 +1,30 @@
 from fastapi import FastAPI
-from def_class import BookInput
 import pandas as pd
-import mlflow.sklearn
+
+from pydantic import BaseModel, Field
+class BookInput(BaseModel):
+    description: str
+    author_avg_rating: float = Field(..., ge=0.0, le=5.0)
+    author_rating_count: int = Field(..., ge=0)
+    author_total_reviews: int = Field(..., ge=0)
+    num_pages: int = Field(..., ge=1)
+    book_published_year: int = Field(..., ge=0)
+    book_avg_rating: float = Field(..., ge=0.0, le=5.0)
+    book_ratings: int = Field(..., ge=0)
+    book_reviews: int = Field(..., ge=0)
 
 app = FastAPI()
+mlflow.set_tracking_uri("file:///app/mlruns")
+from mlflow.tracking import MlflowClient
+import mlflow.sklearn
 
-# Load your trained model
-model_name = 'logreg_cv'
-stage = 'Production'
-model_uri = f"models:/{model_name}/{stage}"
-model = mlflow.sklearn.load_model(model_uri)
+client = MlflowClient()
+experiment = client.get_experiment_by_name("LR_Experiment")
+runs = client.search_runs(experiment_ids=[experiment.experiment_id], order_by=["start_time DESC"])
 
-# Feature extraction function (single book)
+latest_run_id = runs[0].info.run_id
+model = mlflow.sklearn.load_model(f"mlruns/{latest_run_id}/artifacts/model")
+
 buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece', 
              'epic', 'thrilling', 'captivating', 'page-turner', 'unforgettable']
 

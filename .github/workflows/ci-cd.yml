@@ -25,12 +25,10 @@ jobs:
           pip install -r requirements.txt
 
       - name: Install hops dependencies
-        run: |
-          pip install -r requirements_hops.txt
+        run: pip install -r requirements_hops.txt
 
       - name: Run tests
-        run: |
-          pytest test/ --maxfail=1 --disable-warnings -q
+        run: pytest test/ --maxfail=1 --disable-warnings -q
 
       - name: Run linting
         run: |
@@ -44,30 +42,25 @@ jobs:
           sudo rm -rf "/usr/local/share/boost"
           sudo rm -rf "$AGENT_TOOLSDIRECTORY"
 
-      - name: Debug list files
-        run: |
-          echo "Current directory: $(pwd)"
-          echo "List files recursively:"
-          ls -R
-
-      - name: Show repo structure
-        run: |
-          pwd
-          ls -R
-
       - name: Build Docker images
-        run: docker compose -f docker-compose.yaml build
+        run: docker compose -f docker-compose.yaml build --no-cache
 
-      - name: Show FastAPI logs
-        run: docker compose logs fastapi
+      # Sequential pipeline execution
+      - name: Run feature pipeline
+        run: docker compose -f docker-compose.yaml up feature_pipeline
 
-      - name: Show running containers
-        run: docker compose ps
+      - name: Run training pipeline
+        run: docker compose -f docker-compose.yaml up training_pipeline
 
-      - name: Run Docker Compose and wait for FastAPI
+      - name: Run inference pipeline
+        run: docker compose -f docker-compose.yaml up inference
+
+      - name: Start FastAPI
+        run: docker compose -f docker-compose.yaml up -d fastapi
+
+      - name: Wait for FastAPI to be ready
         run: |
-          docker compose -f docker-compose.yaml up -d
-          echo "Waiting for FastAPI to be ready..."
+          echo "Waiting for FastAPI..."
           until docker compose exec fastapi curl -s http://localhost:8085/docs > /dev/null 2>&1; do
             sleep 2
             echo "Waiting..."
@@ -75,8 +68,7 @@ jobs:
           echo "FastAPI is up!"
 
       - name: Test FastAPI health endpoint
-        run: |
-          curl --fail http://localhost:8085/docs || exit 1
+        run: curl --fail http://localhost:8085/docs || exit 1
 
       - name: Tear down
         if: always()

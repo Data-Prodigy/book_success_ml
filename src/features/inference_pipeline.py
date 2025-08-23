@@ -10,8 +10,33 @@ if src_path not in sys.path:
     sys.path.insert(0, src_path)
 
 
-def load_model(model_name='logreg_cv', stage='Production'):
-    model_uri = f"models:/{model_name}/{stage}"
+from mlflow.tracking import MlflowClient
+import mlflow.sklearn
+
+import mlflow
+from mlflow.tracking import MlflowClient
+import os
+
+def load_model_local(experiment_name="LR_Experiment", artifact_path="model"):
+    client = MlflowClient()
+    experiment = client.get_experiment_by_name(experiment_name)
+
+    if experiment is None:
+        raise RuntimeError(f"Experiment '{experiment_name}' not found locally in mlruns/.")
+    runs = client.search_runs(
+        experiment_ids=[experiment.experiment_id],
+        order_by=["start_time DESC"],
+        max_results=1
+    )
+
+    if not runs:
+        raise RuntimeError(f"No runs found in experiment '{experiment_name}'.")
+    latest_run = runs[0]
+    latest_run_id = latest_run.info.run_id
+
+    model_uri = os.path.join("mlruns", str(experiment.experiment_id), latest_run_id, "artifacts", artifact_path)
+    print(f"Loading model from local path: {model_uri}")
+
     model = mlflow.sklearn.load_model(model_uri)
     return model
 
@@ -30,7 +55,8 @@ def get_inference_data(filename):
 def main():
     from sklearn.preprocessing import LabelEncoder, StandardScaler
     from sklearn.model_selection import train_test_split
-    model = load_model()
+    mlflow.set_tracking_uri("file:///app/mlruns")
+    model = load_model_local(experiment_name="LR_Experiment", artifact_path="model")
     seed = 123
     inference_df = get_inference_data('novel_inference_data.csv')
     inference_df.drop(columns=['description'], inplace=True)

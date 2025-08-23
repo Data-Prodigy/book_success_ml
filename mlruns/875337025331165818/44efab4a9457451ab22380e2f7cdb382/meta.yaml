@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/44efab4a9457451ab22380e2f7cdb382/artifacts
+end_time: 1755949113707
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: 44efab4a9457451ab22380e2f7cdb382
+run_name: aged-skink-281
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755949104824
+status: 3
+tags: []
+user_id: root

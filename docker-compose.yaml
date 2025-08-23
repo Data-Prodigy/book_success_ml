@@ -2,51 +2,53 @@ version: '3.8'
 
 services:
   feature_pipeline:
-     build:
+    build:
       context: .
-      dockerfile: Dockerfile
-     container_name: feature_pipeline
-     volumes:
-      - ./src/features:/app
-     command: python3 feature_pipeline.py
+      dockerfile: Dockerfile.hops
+    container_name: feature_pipeline
+    working_dir: /app
+    command: ["python3", "src/features/feature_pipeline.py"]
 
   training_pipeline:
-     build:
+    build:
       context: .
-      dockerfile: Dockerfile
-     container_name: training_pipeline
-     volumes:
-      - ./src/features:/app
-     command: python3 train_pipeline.py
+      dockerfile: Dockerfile.hops
+    container_name: training_pipeline
+    working_dir: /app
+    command: ["python3", "src/features/train_pipeline.py"]
+    depends_on:
+      - feature_pipeline
+    volumes:
+    - ./mlruns:/app/mlruns
 
   inference:
-     build:
+    build:
       context: .
-      dockerfile: Dockerfile
-     container_name: inference
-     volumes:
-      - ./src/features:/app
-     command: python3 inference_pipeline.py
+      dockerfile: Dockerfile.hops
+    container_name: inference
+    working_dir: /app
+    volumes:
+      - ./mlruns:/app/mlruns
+    command: ["python3", "src/features/inference_pipeline.py"]
+    depends_on:
+      - training_pipeline
+
 
   fastapi:
     build:
       context: .
-      dockerfile: Dockerfile
-      args:
-        REQUIREMENTS_FILE: requirements.txt
+      dockerfile: Dockerfile.fastapi
     container_name: fastapi_app
+    working_dir: /app
+    volumes:
+      - ./mlruns:/app/mlruns
     ports:
       - "8085:8000"
-    command: ["uvicorn", "api.fast_api:app", "--host", "0.0.0.0", "--port", "8000"]
+    command: ["python3", "-m", "uvicorn", "api.fast_api:app", "--host", "0.0.0.0", "--port", "8000"]
     depends_on:
-      - hops
-
-  hops:
-    build:
-      context: . 
-      dockerfile: Dockerfile
-      args:
-        REQUIREMENTS_FILE: requirements_hops.txt
-    container_name: hops_app
-    ports:
-      - "5000:5000"
+      - inference
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8085/docs"]
+      interval: 5s
+      retries: 12
+      timeout: 5s

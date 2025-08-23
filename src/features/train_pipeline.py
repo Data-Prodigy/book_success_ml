@@ -7,7 +7,7 @@ def fetch_df_from_feature_store():
     fs = project.get_feature_store()
 
     feature_group = fs.get_feature_group(
-        name="novel_data",  
+        name="novel_data_v1",  
         version=1
     )
 
@@ -26,9 +26,8 @@ def build_LR_model(df):
     from mlflow import MlflowClient
     import os
     import json
-
-    mlflow.set_tracking_uri('http://127.0.0.1:5000')
-    mlflow.set_experiment('LR_Experiment')
+    mlflow.set_tracking_uri("file:///app/mlruns")
+    mlflow.set_experiment('LR_Experiment_v2')
     mlflow.sklearn.autolog()
 
     seed = 123
@@ -74,7 +73,6 @@ def build_LR_model(df):
         logreg_cv.fit(X_train, y_train)
         y_pred = logreg_cv.predict(X_test)
 
-        # 🔹 Metrics
         accuracy = accuracy_score(y_test, y_pred)
         precision = precision_score(y_test, y_pred)
         recall = recall_score(y_test, y_pred)
@@ -104,22 +102,12 @@ def build_LR_model(df):
         }
         save_dir = "inference_metrics"
         os.makedirs(save_dir, exist_ok=True)
-        with open(os.path.join(save_dir, "inference_metrics.json"), 'w') as f:
+        with open(os.path.join(save_dir, "train_metrics.json"), 'w') as f:
             json.dump(metrics, f, indent=4)
 
         # Registering the Model to MLFLOW
-        mlflow.sklearn.log_model(logreg_cv, artifact_path="model")
+        mlflow.sklearn.log_model(logreg_cv, "model")
         run_id = run.info.run_id
-        model_version = client.create_model_version(
-            name='logreg_cv',
-            source=f'runs:/{run_id}/model',
-            run_id=run_id
-        )
-        client.transition_model_version_stage(
-            name='logreg_cv',
-            version=model_version.version,
-            stage='Production'
-        )
 
 def main():
     novel_df = fetch_df_from_feature_store()
