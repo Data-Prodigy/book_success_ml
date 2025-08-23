@@ -108,6 +108,16 @@ def build_LR_model(df):
         # Registering the Model to MLFLOW
         mlflow.sklearn.log_model(logreg_cv, "model")
         run_id = run.info.run_id
+        model_version = client.create_model_version(
+            name='logreg_cv',
+            source=f"runs:/{run_id}/model",
+            run_id=run_id
+        )
+        client.transition_model_version_stage(
+            name='logreg_cv',
+            version=model_version.version,
+            stage='Production'
+        )
         
 def main():
     novel_df = fetch_df_from_feature_store()
