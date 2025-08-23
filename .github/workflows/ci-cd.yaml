@@ -44,6 +44,16 @@ jobs:
       - name: Run feature pipeline
         run: docker compose -f docker-compose.yaml up feature_pipeline
 
+      - name: Start MLflow service
+        run: |
+          docker compose -f docker-compose.yaml up -d mlflow
+          echo "Waiting for MLflow to be ready..."
+          until curl -s http://localhost:5000 > /dev/null 2>&1; do
+            sleep 2
+            echo "Waiting..."
+          done
+          echo "MLflow is up!"
+
       - name: Run training pipeline
         run: docker compose -f docker-compose.yaml up training_pipeline
 

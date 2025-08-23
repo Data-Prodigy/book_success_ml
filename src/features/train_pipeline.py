@@ -26,7 +26,7 @@ def build_LR_model(df):
     from mlflow import MlflowClient
     import os
     import json
-    mlflow.set_tracking_uri("file:///app/mlruns")
+    mlflow.set_tracking_uri("http://mlflow:5000")
     mlflow.set_experiment('LR_Experiment_v2')
     mlflow.sklearn.autolog()
 
@@ -108,7 +108,7 @@ def build_LR_model(df):
         # Registering the Model to MLFLOW
         mlflow.sklearn.log_model(logreg_cv, "model")
         run_id = run.info.run_id
-
+        
 def main():
     novel_df = fetch_df_from_feature_store()
     build_LR_model(novel_df)

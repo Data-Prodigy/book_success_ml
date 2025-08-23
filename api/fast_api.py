@@ -14,13 +14,14 @@ class BookInput(BaseModel):
     book_reviews: int = Field(..., ge=0)
 
 app = FastAPI()
-mlflow.set_tracking_uri("file:///app/mlruns")
+mlflow.set_tracking_uri("http://mlflow:5000")
 from mlflow.tracking import MlflowClient
 import mlflow.sklearn
 
-experiment_name="LR_Experiment"
-artifact_path="model"
-model_uri = f"/app/mlruns/{experiment_name}/latest/{artifact_path}"  
+
+model_name="logreg_cv"
+stage="Production"
+model_uri = f"models:/{model_name}/{stage}"
 model = mlflow.sklearn.load_model(model_uri)
 
 buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece', 
