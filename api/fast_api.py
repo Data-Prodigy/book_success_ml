@@ -14,10 +14,10 @@ class BookInput(BaseModel):
     book_reviews: int = Field(..., ge=0)
 
 app = FastAPI()
+import mlflow
 mlflow.set_tracking_uri("http://mlflow:5000")
 from mlflow.tracking import MlflowClient
 import mlflow.sklearn
-
 
 model_name="logreg_cv"
 stage="Production"
