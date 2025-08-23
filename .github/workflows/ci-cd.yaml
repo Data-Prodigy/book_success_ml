@@ -67,7 +67,7 @@ jobs:
         run: |
           echo "Waiting for FastAPI..."
           SECONDS=0
-          until curl -s http://localhost:8000/docs > /dev/null 2>&1; do
+          until curl -s http://localhost:8085/docs > /dev/null 2>&1; do
             sleep 2
             echo "Waiting..."
             if [ $SECONDS -gt 60 ]; then
@@ -78,7 +78,7 @@ jobs:
           echo "FastAPI is up!"
 
       - name: Test FastAPI health endpoint
-        run: curl --fail http://localhost:8000/docs || exit 1
+        run: curl --fail http://localhost:8085/docs || exit 1
 
       - name: Tear down
         if: always()
