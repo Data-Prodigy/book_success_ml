@@ -11,23 +11,19 @@ if src_path not in sys.path:
 
 
 from mlflow.tracking import MlflowClient
-import mlflow.sklearn
-
-import mlflow
-from mlflow.tracking import MlflowClient
 import os
-
-import os
-import mlflow.sklearn
-
 def load_latest_model_local(experiment_id="0", artifact_path="model"):
     experiment_path = f"/app/mlruns/{experiment_id}"
     
-    runs = os.listdir(experiment_path)
+    runs = [d for d in os.listdir(experiment_path) 
+            if os.path.isdir(os.path.join(experiment_path, d))]
+    
     if not runs:
         raise RuntimeError(f"No runs found in experiment {experiment_id}")
     
-    latest_run_id = sorted(runs)[-1]  
+    runs = sorted(runs, key=lambda d: os.path.getmtime(os.path.join(experiment_path, d)))
+    latest_run_id = runs[-1]
+    
     model_uri = os.path.join(experiment_path, latest_run_id, "artifacts", artifact_path)
     
     if not os.path.exists(model_uri):
@@ -35,6 +31,7 @@ def load_latest_model_local(experiment_id="0", artifact_path="model"):
     
     model = mlflow.sklearn.load_model(model_uri)
     return model
+
 
 def save_metrics(metrics_dict, filename='inference_metrics.json'):
     with open(filename, 'w') as f:
