@@ -18,12 +18,10 @@ mlflow.set_tracking_uri("file:///app/mlruns")
 from mlflow.tracking import MlflowClient
 import mlflow.sklearn
 
-client = MlflowClient()
-experiment = client.get_experiment_by_name("LR_Experiment")
-runs = client.search_runs(experiment_ids=[experiment.experiment_id], order_by=["start_time DESC"])
-
-latest_run_id = runs[0].info.run_id
-model = mlflow.sklearn.load_model(f"mlruns/{latest_run_id}/artifacts/model")
+experiment_name="LR_Experiment"
+artifact_path="model"
+model_uri = f"/app/mlruns/{experiment_name}/latest/{artifact_path}"  
+model = mlflow.sklearn.load_model(model_uri)
 
 buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece', 
              'epic', 'thrilling', 'captivating', 'page-turner', 'unforgettable']
