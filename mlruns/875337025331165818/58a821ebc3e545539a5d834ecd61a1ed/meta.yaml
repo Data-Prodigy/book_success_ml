@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/58a821ebc3e545539a5d834ecd61a1ed/artifacts
+end_time: 1755977078623
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: 58a821ebc3e545539a5d834ecd61a1ed
+run_name: kindly-gull-540
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755977068511
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/43ee5f5ddba94887a2cda36a1de1ab0a/artifacts
+end_time: 1755976733229
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: 43ee5f5ddba94887a2cda36a1de1ab0a
+run_name: bustling-hound-460
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755976723718
+status: 3
+tags: []
+user_id: root

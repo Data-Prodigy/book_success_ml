@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/0e0a73797e4f4360b80b191226bd67b5/artifacts
+end_time: 1755980234791
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: 0e0a73797e4f4360b80b191226bd67b5
+run_name: capable-swan-739
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755980224931
+status: 3
+tags: []
+user_id: root

@@ -31,6 +31,7 @@ services:
     command: ["python3", "src/features/train_pipeline.py"]
     depends_on:
       - feature_pipeline
+      - mlflow
     volumes:
     - ./mlruns:/app/mlruns
 

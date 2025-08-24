@@ -725,9 +725,9 @@ import re
 
 def extract_features(df):
     """
-    Extracts numeric and text-based features from a book dataset.
+    Extracts numeric and text-based features from my description column.
     Text features include:
-      - buzzword_count
+      - buzzword_count (this is a likely indicator as to how much hype a novel has)
       - description word count
       - number of sentences
       - adjective count (simple regex-based)
@@ -759,7 +759,7 @@ def create_hit_miss(df, quantile=0.35):
         df : pandas.DataFrame
         quantile : float
             The percentile cutoff for defining a "Hit". 
-            Default = 0.6 means top 40% of books will be Hits.
+            Default = 0.35 means top 65% of books will be Hits.
 
     Returns:
         df : pandas.DataFrame with added 'score' and 'hit_miss'

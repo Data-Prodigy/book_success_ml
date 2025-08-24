@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/9ad58b0effde4ef086bbb2dbf63b92c8/artifacts
+end_time: 1755976531025
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: 9ad58b0effde4ef086bbb2dbf63b92c8
+run_name: skillful-bass-158
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755976521108
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/d9033c1c0dbc4435bdb1b20ef83c286a/artifacts
+end_time: 1756054073855
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: d9033c1c0dbc4435bdb1b20ef83c286a
+run_name: nimble-swan-512
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756054063522
+status: 3
+tags: []
+user_id: root

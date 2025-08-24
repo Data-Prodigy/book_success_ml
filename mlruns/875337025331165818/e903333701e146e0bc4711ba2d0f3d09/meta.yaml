@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/e903333701e146e0bc4711ba2d0f3d09/artifacts
+end_time: 1755975644401
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: e903333701e146e0bc4711ba2d0f3d09
+run_name: intelligent-eel-228
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1755975635108
+status: 3
+tags: []
+user_id: root

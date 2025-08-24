@@ -3,7 +3,10 @@ import pandas as pd
 import time
 
 def fetch_novel_data():
-    GOOGLE_BOOKS_API_KEY = 'AIzaSyC6Dk5o102Kxw7MgpuUBpgvQDq16G91z5o'  # Replace with your actual key
+    """
+Code to fetch metadata for the works of these 15 authors from Google Books API. 
+    """
+    GOOGLE_BOOKS_API_KEY = 'AIzaSyC6Dk5o102Kxw7MgpuUBpgvQDq16G91z5o'  
     GOOGLE_BOOKS_API = "https://www.googleapis.com/books/v1/volumes"
 
     authors = [

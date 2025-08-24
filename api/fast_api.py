@@ -28,16 +28,21 @@ buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece',
              'epic', 'thrilling', 'captivating', 'page-turner', 'unforgettable']
 
 def extract_features_single(book: dict) -> dict:
-    desc = book['description'].lower()
+    desc = book['description'].replace('\\"', '"').replace("\\'", "'").lower()
+
     book['buzzword_count'] = sum(desc.count(word) for word in buzzwords)
     book['desc_len_words'] = len(desc.split())
     book['num_sentences'] = desc.count('.') + desc.count('!') + desc.count('?')
+    
     import re
-    book['num_adjectives'] = len(re.findall(r'\b\w+(ly|ous|ive|able|ful|ish|ic|al|ant|ent)\b', desc))
+    book['num_adjectives'] = len(
+        re.findall(r'\b\w+(ly|ous|ive|able|ful|ish|ic|al|ant|ent)\b', desc)
+    )
     return book
 
 @app.post("/predict/")
 def predict(book: BookInput):
+    from sklearn.preprocessing import StandardScaler
     book_dict = book.dict()
     
     # Extract text-based features
@@ -49,11 +54,11 @@ def predict(book: BookInput):
         'num_pages', 'book_published_year', 'book_avg_rating', 'book_ratings', 'book_reviews'
     ]
     X = pd.DataFrame([book_features])[feature_columns]
-    
-    prediction = model.predict(X)
-    probability = model.predict_proba(X)[:, 1][0]
+    scaler = StandardScaler()
+    X_scaled = scaler.fit_transform(X)
+    prediction = model.predict(X_scaled)
+    probability = model.predict_proba(X_scaled)[:, 1][0]
     
     book_features['predicted_hit'] = 'Hit' if prediction[0] == 1 else 'Miss'
-    book_features['predicted_probability'] = float(probability)
     
     return book_features

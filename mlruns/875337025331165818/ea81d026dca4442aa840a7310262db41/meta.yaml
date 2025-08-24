@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/ea81d026dca4442aa840a7310262db41/artifacts
+end_time: 1756053057162
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: ea81d026dca4442aa840a7310262db41
+run_name: respected-pig-156
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756053046239
+status: 3
+tags: []
+user_id: root

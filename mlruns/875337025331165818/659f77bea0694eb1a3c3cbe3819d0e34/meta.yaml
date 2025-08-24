@@ -1,0 +1,14 @@
+artifact_uri: file:///app/mlruns/875337025331165818/659f77bea0694eb1a3c3cbe3819d0e34/artifacts
+end_time: 1756055079177
+entry_point_name: ''
+experiment_id: '875337025331165818'
+lifecycle_stage: active
+run_id: 659f77bea0694eb1a3c3cbe3819d0e34
+run_name: glamorous-ram-716
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1756055068090
+status: 3
+tags: []
+user_id: root
