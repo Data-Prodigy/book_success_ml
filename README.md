@@ -18,7 +18,7 @@ After cleaning the data I passed it through **Great Expectations** for data qual
 <img width="1034" height="567" alt="Screenshot 2025-08-24 195354" src="https://github.com/user-attachments/assets/7accab80-6738-47d4-aec9-5db7f7b04af2" />
 
 ## Training Pipeline
-This python script pulls the data from Hopsworks and loads it into a pandas dataframe. An **MLFLOW** experiment uri is set and a LogisticRegressionCV model is fit on the train_test_split, scaled data. Mlflow then logs artifacts, and model metadata to it's own registry. 
+This python script pulls the data from Hopsworks and loads it into a pandas dataframe. An **MLFLOW** experiment uri is set and a LogisticRegressionCV model is fit on the train_test_split, scaled data. I applied l2 regulaization so I don't overfit on my small data of ~158 rows. Mlflow then logs artifacts, and model metadata to it's own registry. 
 
 ## Inference Pipeline
 This script pulls the latest version of the model from the mMlflow's registry and fits it on already preprocessed data which i had already compiled. Data that was never introduced to the model - not train, not testing. It makes predictions and stores the results on my local filesystem. Now here come the most exciting bits:
@@ -37,6 +37,13 @@ I ported the default 8000 FastAPI port to run on port 8085 on my local machine, 
 ## CI-CD 
 And finally, a full CI-CD pipeline that runs some pytest, builds and deploys the whole process. I used Github Actions for this.  
 
+## Metrics
+**Accuracy**: 0.938
+**Precision**: 0.846
+**Recall**: 1.00 
+**F1-score**: 0.917
+
+An F1-score of 91.7% is perfect for this project. 
 
 
 
