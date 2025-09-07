@@ -46,7 +46,7 @@ jobs:
 
       - name: Start MLflow service
         run: |
-          docker compose -f docker-compose.yaml up -d mlflow
+          docker compose -f docker-compose.yaml up -d db mlflow
           echo "Waiting for MLflow to be ready..."
           until curl -s http://localhost:5000 > /dev/null 2>&1; do
             sleep 2
