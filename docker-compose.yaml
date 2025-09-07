@@ -9,7 +9,7 @@ services:
     working_dir: /app
     command: ["python3", "src/features/feature_pipeline.py"]
 
-   db:
+  db:
     image: postgres:15
     environment:
       POSTGRES_USER: mlflow
@@ -78,7 +78,7 @@ services:
     depends_on:
       - inference
     healthcheck:
-      test: ["CMD", "curl", "-f", http://localhost:8085/docs]
+      test: ["CMD", "curl", "-f", "http://localhost:8085/docs"]
       interval: 5s
       retries: 12
       timeout: 5s
