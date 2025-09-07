@@ -23,7 +23,7 @@ services:
       timeout: 5s
       retries: 12
 
-   mlflow:
+  mlflow:
     image: ghcr.io/mlflow/mlflow:latest
     command: >
       bash -c "
@@ -44,7 +44,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
-        
+
   training_pipeline:
     build:
       context: .
@@ -56,7 +56,7 @@ services:
       - feature_pipeline
       - mlflow
     volumes:
-    - ./mlruns:/app/mlruns
+      - ./mlruns:/app/mlruns
 
   inference:
     build:
