@@ -34,7 +34,7 @@ def main():
     from sklearn.preprocessing import LabelEncoder, StandardScaler
     from sklearn.model_selection import train_test_split
     mlflow.set_tracking_uri("http://mlflow:5000")
-    model = load_model(model_name='logreg_cv',stage='Production')
+    model = None
     seed = 123
     inference_df = get_inference_data('novel_inference_data.csv')
     inference_df.drop(columns=['description'], inplace=True)
@@ -64,7 +64,12 @@ def main():
     scaler = StandardScaler()
     X_scaled = scaler.fit_transform(X_numeric)
     X_train,X_test,y_train,y_test = train_test_split(X_scaled,y_encoded,test_size=0.2,stratify=y_encoded,random_state=seed)
-
+    global model
+    if model is None:
+        import mlflow.sklearn
+        run_id = "659f77bea0694eb1a3c3cbe3819d0e34" 
+        model_uri = f"runs:/{run_id}/model"  
+        model = mlflow.sklearn.load_model(model_uri)
     y_pred = model.predict(X_test)
 
     metrics = {
