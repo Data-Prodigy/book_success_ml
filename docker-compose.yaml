@@ -9,19 +9,36 @@ services:
     working_dir: /app
     command: ["python3", "src/features/feature_pipeline.py"]
 
+   db:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: mlflow
+      POSTGRES_PASSWORD: mlflow
+      POSTGRES_DB: mlflow
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mlflow -d mlflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
   mlflow:
     image: ghcr.io/mlflow/mlflow:latest
-    container_name: mlflow_server
-    command: mlflow server --backend-store-uri file:///mlruns --default-artifact-root /mlruns --host 0.0.0.0 --port 5000
+    command: >
+      mlflow server
+      --backend-store-uri postgresql://mlflow:mlflow@db:5432/mlflow
+      --default-artifact-root /mlruns
+      --host 0.0.0.0
+      --port 5000
     volumes:
       - ./mlruns:/mlruns
     ports:
       - "5000:5000"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000"]
-      interval: 10s
-      retries: 12
-
+    depends_on:
+      db:
+        condition: service_healthy
+        
   training_pipeline:
     build:
       context: .
@@ -47,7 +64,6 @@ services:
     depends_on:
       - training_pipeline
 
-
   fastapi:
     build:
       context: .
@@ -66,3 +82,6 @@ services:
       interval: 5s
       retries: 12
       timeout: 5s
+
+volumes:
+  postgres_data:
