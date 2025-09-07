@@ -25,8 +25,6 @@ services:
 
   mlflow:
     image: ghcr.io/mlflow/mlflow:latest
-      mlflow:
-    ...
     command: >
       bash -c "
         until pg_isready -h db -U mlflow && psql -h db -U mlflow -d mlflow -c 'SELECT 1;' > /dev/null 2>&1; do
@@ -39,7 +37,6 @@ services:
           --host 0.0.0.0 \
           --port 5000
       "
-
     volumes:
       - ./mlruns:/mlruns
     ports:
