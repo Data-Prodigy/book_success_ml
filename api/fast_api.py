@@ -18,10 +18,7 @@ import mlflow
 import mlflow.sklearn
 
 mlflow.set_tracking_uri("http://mlflow:5000")
-run_id = "659f77bea0694eb1a3c3cbe3819d0e34" 
-model_uri = f"runs:/{run_id}/model"  
-model = mlflow.sklearn.load_model(model_uri)
-
+model = None
 buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece', 
              'epic', 'thrilling', 'captivating', 'page-turner', 'unforgettable']
 
@@ -41,6 +38,12 @@ def extract_features_single(book: dict) -> dict:
 @app.post("/predict/")
 def predict(book: BookInput):
     from sklearn.preprocessing import StandardScaler
+    global model
+    if model is None:
+        import mlflow.sklearn
+        run_id = "659f77bea0694eb1a3c3cbe3819d0e34" 
+        model_uri = f"runs:/{run_id}/model"  
+        model = mlflow.sklearn.load_model(model_uri)
     book_dict = book.dict()
     
     # Extract text-based features
