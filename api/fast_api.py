@@ -13,7 +13,8 @@ class BookInput(BaseModel):
     book_ratings: int = Field(..., ge=0)
     book_reviews: int = Field(..., ge=0)
 
-app = FastAPI()import mlflow
+app = FastAPI()
+import mlflow
 import mlflow.sklearn
 
 mlflow.set_tracking_uri("http://mlflow:5000")
