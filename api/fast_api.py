@@ -23,7 +23,7 @@ buzzwords = ['award', 'bestseller', 'classic', 'legendary', 'masterpiece',
              'epic', 'thrilling', 'captivating', 'page-turner', 'unforgettable']
 
 def extract_features_single(book: dict) -> dict:
-    desc = book['description'].replace('\\"', '"').replace("\\'", "'").lower()
+    desc = book['description'].replace('\\"', '"').replace("\\'", "'").replace('"','').lower()
 
     book['buzzword_count'] = sum(desc.count(word) for word in buzzwords)
     book['desc_len_words'] = len(desc.split())
