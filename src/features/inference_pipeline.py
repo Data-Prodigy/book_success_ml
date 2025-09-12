@@ -28,6 +28,7 @@ def get_inference_data(filename):
 def main():
     from sklearn.preprocessing import LabelEncoder, StandardScaler
     from sklearn.model_selection import train_test_split
+    import mlflow
     mlflow.set_tracking_uri("http://mlflow:5000")
     seed = 123
     inference_df = get_inference_data('novel_inference_data.csv')
