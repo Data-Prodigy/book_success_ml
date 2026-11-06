@@ -85,7 +85,14 @@ jobs:
 
       - name: Show logs if something failed
         if: failure()
-        run: ${{ env.COMPOSE }} logs --tail=200
+        run: |
+          echo "=== fastapi container logs ==="
+          ${{ env.COMPOSE }} logs --tail=200 fastapi || true
+          echo "=== fastapi health history ==="
+          docker inspect --format '{{json .State.Health}}' book_success_ml-fastapi-1 || true
+          echo "=== all containers ==="
+          ${{ env.COMPOSE }} ps -a
+          ${{ env.COMPOSE }} logs --tail=60 mlflow training_pipeline || true
 
       - name: Tear down
         if: always()
