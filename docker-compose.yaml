@@ -1,68 +1,100 @@
-version: '3.8'
+# Run everything:   docker compose up --build
+# Stages run in order: feature_pipeline -> training_pipeline -> inference -> (fastapi stays up on :8085)
+# Needs a .env next to this file with HOPSWORKS_API_KEY (and OPENLIBRARY_CONTACT only if you run `fetch`).
+# MLFLOW_TRACKING_URI is set per service below, so the value in .env (127.0.0.1) is ignored inside Docker.
+
+x-pipeline: &pipeline
+  build:
+    context: .
+    dockerfile: Dockerfile.hops
+  working_dir: /app
+  env_file: .env
+  environment:
+    MLFLOW_TRACKING_URI: http://mlflow:5000
+    FEATURES_READY_FILE: /state/features_ready.json   # feature pipeline -> training hand-off (row count)
 
 services:
+  # Optional, run on demand:  docker compose --profile fetch run --rm fetch
+  fetch:
+    <<: *pipeline
+    profiles: ["fetch"]
+    container_name: fetch_openlibrary
+    command: ["sh", "-c", "python3 src/features/fetch_openlibrary.py && cp openlibrary_books.csv /data/"]
+    volumes:
+      - ./data:/data
+      - ./raw_openlibrary:/app/raw_openlibrary
+      - ./raw_openlibrary_v2:/app/raw_openlibrary_v2
+
   feature_pipeline:
-    build:
-      context: .
-      dockerfile: Dockerfile.hops
+    <<: *pipeline
     container_name: feature_pipeline
-    working_dir: /app
     command: ["python3", "src/features/feature_pipeline.py"]
+    volumes:
+      - ./data/openlibrary_books.csv:/app/openlibrary_books.csv:ro
+      - ./state:/state
 
   mlflow:
-    image: ghcr.io/mlflow/mlflow:latest
+    image: ghcr.io/mlflow/mlflow:v3.2.0
     container_name: mlflow_server
-    command: mlflow server --backend-store-uri file:///mlruns --default-artifact-root /mlruns --host 0.0.0.0 --port 5000
+    # sqlite = the model registry (aliases) works; --serve-artifacts = clients upload artifacts over HTTP,
+    # so no shared artifact folder has to be mounted into the other containers.
+    command: >
+      mlflow server --host 0.0.0.0 --port 5000
+      --backend-store-uri sqlite:////mlflow/mlflow.db
+      --artifacts-destination /mlflow/artifacts
+      --default-artifact-root mlflow-artifacts:/
+      --serve-artifacts
     volumes:
-      - ./mlruns:/mlruns
+      - ./mlflow_data:/mlflow
     ports:
       - "5000:5000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:5000/health')"]
       interval: 10s
+      timeout: 5s
       retries: 12
 
   training_pipeline:
-    build:
-      context: .
-      dockerfile: Dockerfile.hops
+    <<: *pipeline
     container_name: training_pipeline
-    working_dir: /app
     command: ["python3", "src/features/train_pipeline.py"]
-    depends_on:
-      - feature_pipeline
-      - mlflow
     volumes:
-    - ./mlruns:/app/mlruns
+      - ./state:/state:ro
+    depends_on:
+      mlflow:
+        condition: service_healthy
+      feature_pipeline:
+        condition: service_completed_successfully
 
   inference:
-    build:
-      context: .
-      dockerfile: Dockerfile.hops
+    <<: *pipeline
     container_name: inference
-    working_dir: /app
+    command: ["python3", "src/features/inference_pipeline.py"]   # scores the real hold-out books
     volumes:
-      - ./mlruns:/app/mlruns
-    command: ["python3", "src/features/inference_pipeline.py"]
+      - ./inference_metrics:/app/inference_metrics
     depends_on:
-      - training_pipeline
-
+      training_pipeline:
+        condition: service_completed_successfully
 
   fastapi:
-    build:
+    build:                             # same image as the pipelines: built once, no second pip install
       context: .
-      dockerfile: Dockerfile.fastapi
-    container_name: fastapi_app
+      dockerfile: Dockerfile.hops
     working_dir: /app
-    volumes:
-      - ./mlruns:/app/mlruns
+    env_file: .env
+    environment:
+      MLFLOW_TRACKING_URI: http://mlflow:5000
     ports:
       - "8085:8000"
     command: ["python3", "-m", "uvicorn", "api.fast_api:app", "--host", "0.0.0.0", "--port", "8000"]
     depends_on:
-      - inference
+      mlflow:
+        condition: service_healthy
+      training_pipeline:               # a Production model must exist before the API starts
+        condition: service_completed_successfully
     healthcheck:
-      test: ["CMD", "curl", "-f", http://localhost:8085/docs]
-      interval: 5s
-      retries: 12
+      test: ["CMD", "python", "-c", "import urllib.request as u; u.urlopen('http://localhost:8000/health')"]
+      interval: 10s
       timeout: 5s
+      retries: 12
+      start_period: 40s

@@ -1,25 +1,23 @@
 FROM python:3.11-slim
 
+ENV PYTHONUNBUFFERED=1 PYTHONDONTWRITEBYTECODE=1 MPLBACKEND=Agg \
+    PIP_DEFAULT_TIMEOUT=120 PIP_RETRIES=10 \
+    PYTHONPATH=/app/src/features:/app/src:/app
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
-COPY requirements_hops.txt /app/requirements_hops.txt
+COPY requirements.txt requirements_hops.txt /app/
 
+# libgomp1: XGBoost needs the OpenMP runtime, which slim images don't include.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    build-essential \
-    gcc \
-    libc-dev \
-    libffi-dev \
-    libssl-dev \
+    build-essential gcc libc-dev libffi-dev libssl-dev libgomp1 \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python3 -m pip install --upgrade pip setuptools wheel \
     && python3 -m pip install --no-cache-dir -r /app/requirements.txt \
     && python3 -m pip install --no-cache-dir -r /app/requirements_hops.txt
 
-COPY src/features/ /app/src/features/
-COPY Novel_Pred.csv /app/
-COPY src/features/just_lemme_see.csv /app/
-COPY test/ /app/test/
+# All pipeline code + the API (the fastapi service reuses this same image, so it is built and installed only once). The old CSVs (Novel_Pred.csv, just_lemme_see.csv) are no longer used.
+COPY src/ /app/src/
+COPY api/ /app/api/
 
 CMD ["python3", "src/features/feature_pipeline.py"]

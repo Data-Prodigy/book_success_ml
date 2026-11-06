@@ -1,3 +1,9 @@
 /Cleaned_data_with_tfidf.csv
 venv/
 hops_env/
+mlflow_data/
+state/
+# --- append these lines to your existing .gitignore ---
+.env
+.env.*
+!.env.example
