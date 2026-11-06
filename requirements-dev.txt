@@ -1,0 +1,4 @@
+# Only for running the tests locally; not installed in Docker.
+-r requirements.txt
+-r requirements_hops.txt
+pytest==8.4.1

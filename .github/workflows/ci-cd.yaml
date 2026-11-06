@@ -33,7 +33,7 @@ jobs:
   # Only on main: it needs the real secrets and writes to your Hopsworks feature group.
   pipeline:
     needs: test
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/dev_branch'
     runs-on: ubuntu-latest
     timeout-minutes: 60
     env:
